@@ -6,12 +6,11 @@
 	"version"     : "1.0",
 
 	"permissions": [
-        "tabs",
-		"https://voidray.sifterapp.com/"
+        "tabs"
 	],
 	"content_scripts": [
 		{
-			"matches": [ "http://voidray.sifterapp.com/issues/*", "https://voidray.sifterapp.com/issues/*" ],
+			"matches": [ "https://voidray.sifterapp.com/issues/*" ],
 			"run_at" : "document_idle",
 			"js"     : [
 				"settings.js",
