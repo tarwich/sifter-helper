@@ -1,11 +1,12 @@
 {
 	"manifest_version": 2,
 
-	"name"        : "sifter-helper",
+	"name"        : "Sifter Helper",
 	"description" : "This extension interfaces with sifterapp to enable the email hash actions (ex: #resolve) while editing issues in the web browser.",
 	"version"     : "1.0",
 
 	"permissions": [
+        "tabs",
 		"https://voidray.sifterapp.com/"
 	],
 	"content_scripts": [
