@@ -2,18 +2,20 @@
 window.sifterPlugin = {
 	settings: {
 		hashActions: {
-            "resolve" : "markResolved",
-            "resolves": "markResolved",
-            "resolved": "markResolved",
-            "open"    : "markOpened"  ,
-            "opens"   : "markOpened"  ,
-            "opened"  : "markOpened"  ,
-            "reopen"  : "markOpened"  ,
-            "reopens" : "markOpened"  ,
-            "reopened": "markOpened"  ,
-            "close"   : "markClosed"  ,
-            "closes"  : "markClosed"  ,
-            "closed"  : "markClosed"
+            "a:"      : "assignTo"      ,
+            "close"   : "markClosed"    ,
+            "closed"  : "markClosed"    ,
+            "closes"  : "markClosed"    ,
+            "open"    : "markOpened"    ,
+            "opened"  : "markOpened"    ,
+            "opens"   : "markOpened"    ,
+            "reopen"  : "markOpened"    ,
+            "reopened": "markOpened"    ,
+            "reopens" : "markOpened"    ,
+            "resolve" : "markResolved"  ,
+            "resolved": "markResolved"  ,
+            "resolves": "markResolved"  ,
+            "unassign": "markUnassigned",
 		}
 	}
 };
