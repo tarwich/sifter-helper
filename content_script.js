@@ -13,7 +13,7 @@ sifterPlugin.init = function() {
 	// Add all the actions to the list of keywords
 	for(action in plugin.settings.hashActions) keywords.push(action);
 	// Make the hash out of the keywords
-	plugin.hashRegex = new RegExp(".*?#(" + keywords.join("|") + ")", "gi");
+	plugin.hashRegex = new RegExp(".*?#(" + keywords.join("|") + ")\\b", "gi");
 };
 
 // ==================================================
@@ -39,8 +39,15 @@ sifterPlugin.assignTo = function(leader, $input) {
 			
 			// Need to call this after the textbox is updated by the browser
 			window.setTimeout(function() {
+				var value = $input.val();
+
+				// Remove the name from the front of the string
+				value = value.replace(new RegExp("(^(?:\s|#\w+)*)\\s*#" + match[0] + "\\s*"), "");
+				// Remove the name from the middle of the string
+				value = value.replace(new RegExp("#" + match[0] + "\\s*"), longhand);
+
 				// Remove the text from the box
-				$input.val($input.val().replace(new RegExp("\\s*#" + match[0] + "\\s*"), ""));
+				$input.val(value);
 			}, 10);
 		}
 	});
@@ -84,10 +91,12 @@ sifterPlugin.getTeamMembers = function(callback) {
 // ==================================================
 sifterPlugin.markClosed = function() {
 	var $radio = 
-		// Try to find the radio button that pertains to the 'closed' label
-		$("label:contains(Closed):has(:radio):first")
-		// Failing that, try to find by status
-		|| $(":radio[name*=status][value=4]:first");
+		$( 
+			// Try to find the radio button that pertains to the 'closed' label
+			$("label:contains(Closed):has(:radio):first")[0]
+			// Failing that, try to find by status
+			|| $(":radio[name*=status][value=4]:first")[0]
+		 );
 
 	// Click the radio button
 	$radio.click();
@@ -99,9 +108,11 @@ sifterPlugin.markClosed = function() {
 sifterPlugin.markOpened = function() {
 	var $radio = 
 		// Try to find the radio button that pertains to the 'open' label
-		$("label:contains(Open):has(:radio):first")
-		|| $(":radio[name*=status][value=1]:first")
-		;
+		$( 
+		   $("label:contains(Open):has(:radio):first")[0]
+		|| $("label:contains(Reopened):has(:radio):first")[0]
+		|| $(":radio[name*=status][value=1]:first")[0]
+		);
 
 	// Click the radio button
 	$radio.click();
@@ -112,10 +123,12 @@ sifterPlugin.markOpened = function() {
 // ==================================================
 sifterPlugin.markResolved = function() {
 	var $radio = 
-		// Try to find the radio button that pertains to the 'resolved' label
-		$("label:contains(Resolved):has(:radio):first")
-		// Failing that, try to find the button by status
-		|| $(":radio[name*=status][value=3]:first");
+		$( 
+			// Try to find the radio button that pertains to the 'resolved' label
+			$("label:contains(Resolved):has(:radio):first")[0]
+			// Failing that, try to find the button by status
+			|| $(":radio[name*=status][value=3]:first")[0]
+		 );
 	
 	// TODO: Consider throwing an error to prevernt the text from getting removed from the textarea
 	
@@ -146,12 +159,30 @@ sifterPlugin.onChange = function() {
 		// Find out what function we call for this match
 		var action = plugin.settings.hashActions[ match ];
 		
-		// Look up the function
-		if(plugin[action])
-		// Call the method with the match in question
-		if( plugin[action](match, $this) !== false ) {
-			// Remove the match from the text
-			text = text.replace(new RegExp("\\s*#" + match + "\\s*"), "");
+		// Look up the function from start of text
+		if(callback = plugin[action]) {
+			// Call the method with the match in question
+			if( callback(match, $this) !== false ) {
+				// Remove the match from the text
+				text = text.replace(new RegExp("\\s*#" + match + "\\s*"), "");
+			}
+		}
+
+		// Look up the function from anywhere in the text
+		else {
+			// Get the hash from the long string
+			var match = ( matches[i].match("#([\\w@:]+)") || [0, false] )[1];
+			// Re-lookup the action
+			var action = plugin.settings.hashActions[ match ];
+			
+			// Look up the function from start of text
+			if(callback = plugin[action]) {
+				// Call the method with the match in question
+				if( callback(match, $this) !== false ) {
+					// Remove the match from the text
+					text = text.replace(new RegExp("#" + match), match);
+				}
+			}
 		}
 	}
 
