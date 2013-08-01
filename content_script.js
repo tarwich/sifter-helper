@@ -137,6 +137,22 @@ sifterPlugin.markResolved = function() {
 };
 
 // ==================================================
+// markUnassigned
+// ==================================================
+sifterPlugin.markUnassigned = function() {
+	var $select = 
+		$( 
+			// Try to find the select box that pertains to the 'Assignee' label
+			$("label:contains(Assignee) select")[0]
+			// Failing that, try to find the dropdown by name
+			|| $("select[name*=assignee]")[0]
+		 );
+	
+	// Set the value to nothing
+	$select.val("");
+};
+
+// ==================================================
 // onChange
 // ==================================================
 sifterPlugin.onChange = function() {
