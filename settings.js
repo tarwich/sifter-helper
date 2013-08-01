@@ -1,5 +1,6 @@
 
-window.sifterPlugin = {
+// Initialize plugin in global scope
+sifterPlugin = {
 	settings: {
 		hashActions: {
             "a:"      : "assignTo"      ,
