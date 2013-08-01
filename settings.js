@@ -3,7 +3,9 @@
 sifterPlugin = {
 	settings: {
 		hashActions: {
-            "a:"      : "assignTo"      ,
+			"@"       : "assignTo"      ,
+            "a:@"     : "assignTo"      , 
+            "a:"      : "assignTo"      , 
             "close"   : "markClosed"    ,
             "closed"  : "markClosed"    ,
             "closes"  : "markClosed"    ,
