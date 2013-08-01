@@ -1,16 +1,16 @@
 {
 	"manifest_version": 2,
 
-	"name"        : "One-click-Kittens",
-	"description" : "This extension demonstrates a browser action with kittens.",
+	"name"        : "sifter-helper",
+	"description" : "This extension interfaces with sifterapp to enable the email hash actions (ex: #resolve) while editing issues in the web browser.",
 	"version"     : "1.0",
 
 	"permissions": [
-		"https://secure.flickr.com/"
+		"https://voidray.sifterapp.com/"
 	],
 	"content_scripts": [
 		{
-			"matches": [ "http://*/*", "https://*/*" ],
+			"matches": [ "http://voidray.sifterapp.com/issues/*", "https://voidray.sifterapp.com/issues/*" ],
 			"run_at" : "document_idle",
 			"js"     : [
 				"settings.js",
