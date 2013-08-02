@@ -10,7 +10,7 @@
 	],
 	"content_scripts": [
 		{
-			"matches": [ "https://voidray.sifterapp.com/issues/*" ],
+			"matches": [ "https://voidray.sifterapp.com/*" ],
 			"run_at" : "document_idle",
 			"js"     : [
 				"settings.js",

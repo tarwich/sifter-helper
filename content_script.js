@@ -33,14 +33,16 @@ sifterPlugin.assignTo = function(leader, $input) {
 		// If we found the long version, then remove it from the textbox
 		if(longhand) {
 			// Find the option that pertains to this person
-			var $option = $(".assignee option:contains("+longhand+")");
+			var $option = $("select[name*=assignee] option:contains("+longhand+")");
+			// If option not found, then report that we failed
+			if(!$option.length) return false;
 			// Select the person from the assign list
 			$option.closest("select").val( $option.val() ); 
 			
 			// Need to call this after the textbox is updated by the browser
 			window.setTimeout(function() {
 				var value = $input.val();
-
+				
 				// Remove the name from the front of the string
 				value = value.replace(new RegExp("(^(?:\s|#\w+)*)\\s*#" + match[0] + "\\s*"), "");
 				// Remove the name from the middle of the string
@@ -98,6 +100,8 @@ sifterPlugin.markClosed = function() {
 			|| $(":radio[name*=status][value=4]:first")[0]
 		 );
 
+	// If we didn't find the radio button, then report that we failed
+	if(!$radio.length) return false;
 	// Click the radio button
 	$radio.click();
 };
@@ -114,6 +118,8 @@ sifterPlugin.markOpened = function() {
 		|| $(":radio[name*=status][value=1]:first")[0]
 		);
 
+	// If we didn't find the radio button, then report that we failed
+	if(!$radio.length) return false;
 	// Click the radio button
 	$radio.click();
 }
@@ -132,6 +138,8 @@ sifterPlugin.markResolved = function() {
 	
 	// TODO: Consider throwing an error to prevernt the text from getting removed from the textarea
 	
+	// If we didn't find the radio button, then report that we failed
+	if(!$radio.length) return false;
 	// Click the radio button
 	$radio.click();
 };
@@ -148,6 +156,8 @@ sifterPlugin.markUnassigned = function() {
 			|| $("select[name*=assignee]")[0]
 		 );
 	
+	// If we didn't find the select box, then report that we failed
+	if(!$select.length) return false;
 	// Set the value to nothing
 	$select.val("");
 };
